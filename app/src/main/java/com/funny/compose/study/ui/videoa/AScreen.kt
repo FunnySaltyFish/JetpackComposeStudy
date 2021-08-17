@@ -1,20 +1,20 @@
-package com.funny.compose.study.ui.A
+package com.funny.compose.study.ui.videoa
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.funny.cmaterialcolors.MaterialColors.Companion.BlueA700
+import com.funny.cmaterialcolors.MaterialColors.Companion.Green200
+import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 @Composable
@@ -68,4 +68,26 @@ fun BBox(
         .size(100.dp)
         .background(color)
         )
+}
+
+@Composable
+fun ScreenB() {
+    val scaffoldState = rememberScaffoldState()
+    val scope = rememberCoroutineScope()
+    Scaffold(
+        scaffoldState = scaffoldState,
+        snackbarHost = {
+            SnackbarHost(hostState = it){ data->
+                Snackbar(snackbarData = data,shape = AbsoluteRoundedCornerShape(8.dp),backgroundColor = Green200)
+            }
+        }
+    ) {
+        Button(onClick = {
+            scope.launch {
+                scaffoldState.snackbarHostState.showSnackbar("你好")
+            }
+        }) {
+            Text("Click me")
+        }
+    }
 }

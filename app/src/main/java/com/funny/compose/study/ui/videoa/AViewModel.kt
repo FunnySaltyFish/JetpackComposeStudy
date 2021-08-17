@@ -1,4 +1,4 @@
-package com.funny.compose.study.ui.A
+package com.funny.compose.study.ui.videoa
 
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.MutableLiveData

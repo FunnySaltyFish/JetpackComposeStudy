@@ -6,8 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.funny.compose.study.ui.A.AScreen
 import com.funny.compose.study.ui.theme.JetpackComposeStudyTheme
+import com.funny.compose.study.ui.videoa.ScreenB
+import com.funny.compose.study.ui.videob.BScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,7 +16,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             JetpackComposeStudyTheme {
                 // A surface container using the 'background' color from the theme
-                AScreen()
+                //ScreenB(
+                BScreen()
             }
         }
     }
