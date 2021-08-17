@@ -8,4 +8,7 @@
 ---
 
 项目配套视频：
- - [A-State及其简单应用]()
+ - [A-State及其简单应用](https://www.bilibili.com/video/BV1Xq4y1Q7iP/) 【Compose 1.0.1】
+ - [B-Snackbar&AlertDialog
+](https://www.bilibili.com/video/BV1iL411J7WR/) 【Compose 1.0.1】
+ 
