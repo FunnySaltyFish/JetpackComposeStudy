@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun CScreen() {
-    //ButtonAndBox()
+//    ButtonAndBox()
     ExpandableText()
 }
 
@@ -31,21 +31,19 @@ fun ButtonAndBox() {
         var boxState : BoxState by remember{
             mutableStateOf(BoxState.Small)
         }
-        val transition = updateTransition(targetState = boxState, label = "Box Transition")
-
-        val animColor by transition.animateColor(label = "Color"){ state ->
-            state.color
-        }
-        val sizeColor by transition.animateDp(label = "Size") { state ->
+        val transition = updateTransition(targetState = boxState, label = "Box")
+        val animSize  by transition.animateDp(label = "Size") { state ->
             state.size
         }
-
+        val animColor by transition.animateColor(label = "Color") { state ->
+            state.color
+        }
         Button(onClick = { boxState = !boxState }) {
             Text("点击我")
         }
         Spacer(modifier = Modifier.height(16.dp))
         Box(modifier = Modifier
-            .size(sizeColor)
+            .size(animSize)
             .background(animColor)
         )
     }
@@ -65,25 +63,21 @@ fun ExpandableText() {
     var expand by remember {
         mutableStateOf(false)
     }
-
-    val rotateValue by animateFloatAsState(if(expand) -180f else 0f)
-
+    val rotationValue by animateFloatAsState(targetValue = if (expand) -180f else 0f)
     Column(
         horizontalAlignment = Alignment.End
     ) {
         Box(modifier = Modifier
             .fillMaxWidth()
-            .animateContentSize()){
+            .animateContentSize()) {
             Text(text = text, maxLines = if(expand) 10 else 2,modifier = Modifier.fillMaxWidth())
         }
-
         IconButton(onClick = { expand = !expand }) {
             Icon(
                 Icons.Default.ArrowDropDown,
                 "expand",
                 modifier = Modifier.graphicsLayer {
-                    transformOrigin = TransformOrigin(0.5f,0f)
-                    rotationX = rotateValue
+                    rotationX = rotationValue
                 }
             )
         }
