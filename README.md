@@ -9,6 +9,6 @@
 
 项目配套视频：
  - [A-State及其简单应用](https://www.bilibili.com/video/BV1Xq4y1Q7iP/) 【Compose 1.0.1】
- - [B-Snackbar&AlertDialog
-](https://www.bilibili.com/video/BV1iL411J7WR/) 【Compose 1.0.1】
- 
+ - [B-Snackbar&AlertDialog](https://www.bilibili.com/video/BV1iL411J7WR/) 【Compose 1.0.1】
+ - [C-简易动画&组合动画&旋转动画](https://www.bilibili.com/video/bv1eq4y1D7Mq) 【Compose 1.0.1】
+
