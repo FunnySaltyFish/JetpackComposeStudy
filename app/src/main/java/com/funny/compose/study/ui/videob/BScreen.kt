@@ -42,7 +42,7 @@ fun BScreen() {
             if(dialogState){
                 AlertDialog(
                     onDismissRequest = {
-                                 dialogState = false
+                        dialogState = false
                     },
                     title = {
                         Text(text = "Title")
