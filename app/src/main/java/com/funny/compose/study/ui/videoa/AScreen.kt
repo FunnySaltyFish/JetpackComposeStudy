@@ -69,25 +69,3 @@ fun BBox(
         .background(color)
         )
 }
-
-@Composable
-fun ScreenB() {
-    val scaffoldState = rememberScaffoldState()
-    val scope = rememberCoroutineScope()
-    Scaffold(
-        scaffoldState = scaffoldState,
-        snackbarHost = {
-            SnackbarHost(hostState = it){ data->
-                Snackbar(snackbarData = data,shape = AbsoluteRoundedCornerShape(8.dp),backgroundColor = Green200)
-            }
-        }
-    ) {
-        Button(onClick = {
-            scope.launch {
-                scaffoldState.snackbarHostState.showSnackbar("你好")
-            }
-        }) {
-            Text("Click me")
-        }
-    }
-}
