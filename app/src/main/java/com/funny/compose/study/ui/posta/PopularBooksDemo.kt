@@ -1,5 +1,3 @@
-package com.funny.compose.study.ui.posta
-
 /*
  * Copyright 2021 The Android Open Source Project
  *
@@ -16,6 +14,10 @@ package com.funny.compose.study.ui.posta
  * limitations under the License.
  */
 
+// 此例子来自 https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/foundation/foundation/integration-tests/foundation-demos/src/main/java/androidx/compose/foundation/demos/PopularBooksDemo.kt
+// 仅修改标题为中文
+
+package com.funny.compose.study.ui.posta
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
@@ -31,9 +33,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.Divider
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -45,155 +47,98 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import kotlin.random.Random
 
-private val customBook = Book("What We Add", "FunnySaltyFish", 2021, 0)
-
-private fun addBook(){
-    PopularBooksList.add(Random.nextInt(7), customBook)
-}
-
-private fun deleteBook(){
-    PopularBooksList.remove(customBook)
-}
-
-@ExperimentalFoundationApi
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PopularBooksDemo() {
     MaterialTheme {
-        val booksList by remember {
-            mutableStateOf(PopularBooksList)
-        }
-        Scaffold(topBar = {
-            TopAppBar(
-                title = { Text(text = "书") },
-                actions = {
-                    var expanded by remember {
-                        mutableStateOf(false)
-                    }
-                    IconButton(onClick = { expanded = true }) {
-                        Icon(
-                            Icons.Filled.MoreVert,
-                            contentDescription = "展开"
+        var comparator by remember { mutableStateOf(TitleComparator) }
+        Column {
+            Row(
+                modifier = Modifier.height(IntrinsicSize.Max),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Text(
+                    "标题",
+                    Modifier.clickable { comparator = TitleComparator }
+                        .weight(5f)
+                        .fillMaxHeight()
+                        .padding(4.dp)
+                        .wrapContentHeight(Alignment.CenterVertically),
+                    textAlign = TextAlign.Center
+                )
+                Text(
+                    "作者",
+                    Modifier.clickable { comparator = AuthorComparator }
+                        .weight(2f)
+                        .fillMaxHeight()
+                        .padding(4.dp)
+                        .wrapContentHeight(Alignment.CenterVertically),
+                    textAlign = TextAlign.Center
+                )
+                Text(
+                    "年份",
+                    Modifier.clickable { comparator = YearComparator }
+                        .width(50.dp)
+                        .fillMaxHeight()
+                        .padding(4.dp)
+                        .wrapContentHeight(Alignment.CenterVertically),
+                    textAlign = TextAlign.Center
+                )
+                Text(
+                    "销售量 (百万)",
+                    Modifier.clickable { comparator = SalesComparator }
+                        .width(65.dp)
+                        .fillMaxHeight()
+                        .padding(4.dp)
+                        .wrapContentHeight(Alignment.CenterVertically),
+                    textAlign = TextAlign.Center
+                )
+            }
+            Divider(color = Color.LightGray, thickness = Dp.Hairline)
+            LazyColumn(
+                Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                val sortedList = PopularBooksList.sortedWith(comparator)
+                items(sortedList, key = { it.title }) {
+                    Row(
+                        Modifier.animateItemPlacement()
+                            .height(IntrinsicSize.Max),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Text(
+                            it.title,
+                            Modifier.weight(5f)
+                                .fillMaxHeight()
+                                .padding(4.dp)
+                                .wrapContentHeight(Alignment.CenterVertically),
+                            textAlign = TextAlign.Center
                         )
-                    }
-                    DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-                        DropdownMenuItem(onClick = {
-                            booksList.add(Random.nextInt(6), customBook)
-                            expanded = false
-                        }) {
-                            Text("添加")
-                        }
-                        DropdownMenuItem(onClick = {
-                            booksList.remove(customBook)
-                            expanded = false
-                        }) {
-                            Text("删除")
-                        }
-                    }
-                }
-            )
-        }) {
-            var comparator by remember { mutableStateOf(TitleComparator) }
-            Column {
-                Row(
-                    modifier = Modifier.height(IntrinsicSize.Max),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    Text(
-                        "书名",
-                        Modifier
-                            .clickable { comparator = TitleComparator }
-                            .weight(5f)
-                            .fillMaxHeight()
-                            .padding(4.dp)
-                            .wrapContentHeight(Alignment.CenterVertically),
-                        textAlign = TextAlign.Center
-                    )
-                    Text(
-                        "作者",
-                        Modifier
-                            .clickable { comparator = AuthorComparator }
-                            .weight(2f)
-                            .fillMaxHeight()
-                            .padding(4.dp)
-                            .wrapContentHeight(Alignment.CenterVertically),
-                        textAlign = TextAlign.Center
-                    )
-                    Text(
-                        "年份",
-                        Modifier
-                            .clickable { comparator = YearComparator }
-                            .width(50.dp)
-                            .fillMaxHeight()
-                            .padding(4.dp)
-                            .wrapContentHeight(Alignment.CenterVertically),
-                        textAlign = TextAlign.Center
-                    )
-                    Text(
-                        "销量 (百万)",
-                        Modifier
-                            .clickable { comparator = SalesComparator }
-                            .width(65.dp)
-                            .fillMaxHeight()
-                            .padding(4.dp)
-                            .wrapContentHeight(Alignment.CenterVertically),
-                        textAlign = TextAlign.Center
-                    )
-                }
-                Divider(color = Color.LightGray, thickness = Dp.Hairline)
-                val sortedList by remember(comparator) {
-                    mutableStateOf(booksList.sortedWith(comparator))
-                }
-                LazyColumn(
-                    Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-
-                    items(booksList, key = { it.title }) {
-                        Row(
-                            Modifier
-                                .animateItemPlacement()
-                                .height(IntrinsicSize.Max),
-                            horizontalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
-                            Text(
-                                it.title,
-                                Modifier
-                                    .weight(5f)
-                                    .fillMaxHeight()
-                                    .padding(4.dp)
-                                    .wrapContentHeight(Alignment.CenterVertically),
-                                textAlign = TextAlign.Center
-                            )
-                            Text(
-                                it.author,
-                                Modifier
-                                    .weight(2f)
-                                    .fillMaxHeight()
-                                    .padding(4.dp)
-                                    .wrapContentHeight(Alignment.CenterVertically),
-                                textAlign = TextAlign.Center
-                            )
-                            Text(
-                                "${it.published}",
-                                Modifier
-                                    .width(55.dp)
-                                    .fillMaxHeight()
-                                    .padding(4.dp)
-                                    .wrapContentHeight(Alignment.CenterVertically),
-                                textAlign = TextAlign.Center
-                            )
-                            Text(
-                                "${it.salesInMillions}",
-                                Modifier
-                                    .width(65.dp)
-                                    .fillMaxHeight()
-                                    .padding(4.dp)
-                                    .wrapContentHeight(Alignment.CenterVertically),
-                                textAlign = TextAlign.Center
-                            )
-                        }
+                        Text(
+                            it.author,
+                            Modifier.weight(2f)
+                                .fillMaxHeight()
+                                .padding(4.dp)
+                                .wrapContentHeight(Alignment.CenterVertically),
+                            textAlign = TextAlign.Center
+                        )
+                        Text(
+                            "${it.published}",
+                            Modifier.width(55.dp)
+                                .fillMaxHeight()
+                                .padding(4.dp)
+                                .wrapContentHeight(Alignment.CenterVertically),
+                            textAlign = TextAlign.Center
+                        )
+                        Text(
+                            "${it.salesInMillions}",
+                            Modifier.width(65.dp)
+                                .fillMaxHeight()
+                                .padding(4.dp)
+                                .wrapContentHeight(Alignment.CenterVertically),
+                            textAlign = TextAlign.Center
+                        )
                     }
                 }
             }
@@ -217,7 +162,7 @@ private val SalesComparator = Comparator<Book> { left, right ->
     right.salesInMillions.compareTo(left.salesInMillions)
 }
 
-private val PopularBooksList = mutableListOf(
+private val PopularBooksList = listOf(
     Book("The Hobbit", "J. R. R. Tolkien", 1937, 140),
     Book("Harry Potter and the Philosopher's Stone", "J. K. Rowling", 1997, 120),
     Book("Dream of the Red Chamber", "Cao Xueqin", 1800, 100),
