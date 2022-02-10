@@ -10,15 +10,19 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.funny.cmaterialcolors.MaterialColors
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlin.math.min
 
 @Composable
 fun EScreen() {
     DraggableBox()
+    val systemUiController = rememberSystemUiController()
+    systemUiController.setStatusBarColor(Color.Green)
 }
 
 
@@ -44,8 +48,8 @@ fun DraggableBox() {
             modifier = Modifier
                 .width(size.dp)
                 .height(size.dp)
-                .offset{IntOffset(offsetX.toInt(),0)}
-                .draggable(draggableState,Orientation.Horizontal)
+                .offset { IntOffset(offsetX.toInt(), 0) }
+                .draggable(draggableState, Orientation.Horizontal)
                 .background(color = MaterialColors.Blue700)
         )
     }

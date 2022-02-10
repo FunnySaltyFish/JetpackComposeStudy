@@ -1,13 +1,17 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.JetpackComposeStudy" parent="android:Theme.DeviceDefault.Light.NoActionBar.Fullscreen">
+        <item name="android:windowTranslucentStatus">true</item>
         <!-- Status bar color. -->
         <!-- Customize your theme here. -->
     </style>
 
     <style name="Theme.JetpackComposeStudy.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowContentOverlay">@null</item>//是否有遮盖
     </style>
 
 </resources>
