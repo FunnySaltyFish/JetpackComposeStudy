@@ -13,6 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import com.funny.compose.study.ui.edittest.EditTest
+import com.funny.compose.study.ui.markdowntest.MarkdownTest
+import com.funny.compose.study.ui.post_layout.CustomLayoutTest
 import com.funny.compose.study.ui.posta.FScreen
 import com.funny.compose.study.ui.posta.PopularBooksDemo
 import com.funny.compose.study.ui.postb.SnakeGame
@@ -39,8 +41,10 @@ class MainActivity : ComponentActivity() {
 //                SnakeGame(
 //                    modifier = Modifier.fillMaxWidth().fillMaxHeight(0.8f).background(Color.DarkGray)
 //                )
-                EScreen()
+//                EScreen()
 //                EditTest()
+//                MarkdownTest()
+                CustomLayoutTest()
             }
 //            PopularBooksDemo()
         }

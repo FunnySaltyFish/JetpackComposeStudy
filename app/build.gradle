@@ -63,6 +63,8 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0"
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
 
+    implementation 'com.github.jeziellago:compose-markdown:0.2.6'
+
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
