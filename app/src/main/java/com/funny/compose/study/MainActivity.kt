@@ -15,6 +15,8 @@ import androidx.compose.ui.platform.ComposeView
 import com.funny.compose.study.ui.edittest.EditTest
 import com.funny.compose.study.ui.markdowntest.MarkdownTest
 import com.funny.compose.study.ui.post_layout.CustomLayoutTest
+import com.funny.compose.study.ui.post_layout.ModifierSample1
+import com.funny.compose.study.ui.post_layout.TraverseModifier
 import com.funny.compose.study.ui.posta.FScreen
 import com.funny.compose.study.ui.posta.PopularBooksDemo
 import com.funny.compose.study.ui.postb.SnakeGame
@@ -44,7 +46,9 @@ class MainActivity : ComponentActivity() {
 //                EScreen()
 //                EditTest()
 //                MarkdownTest()
-                CustomLayoutTest()
+//                CustomLayoutTest()
+//                TraverseModifier()
+                ModifierSample1()
             }
 //            PopularBooksDemo()
         }

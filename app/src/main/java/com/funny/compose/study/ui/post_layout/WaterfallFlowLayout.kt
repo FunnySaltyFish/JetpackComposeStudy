@@ -1,13 +1,15 @@
 package com.funny.compose.study.ui.post_layout
 
 import android.util.Log
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.Measurable
 import androidx.compose.ui.unit.Constraints
+import androidx.compose.ui.unit.dp
 
-const val TAG = "Waterfall"
+private const val TAG = "Waterfall"
 
 fun IntArray.minIndex() : Int {
     var i = 0
@@ -23,7 +25,7 @@ fun IntArray.minIndex() : Int {
 
 @Composable
 fun WaterfallFlowLayout(
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier.size(40.dp),
     columns: Int = 2,  // 横向几列
     content: @Composable ()->Unit
 ) {
