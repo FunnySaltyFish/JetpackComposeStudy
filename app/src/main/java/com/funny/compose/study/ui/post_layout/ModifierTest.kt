@@ -26,6 +26,9 @@ fun TraverseModifier() {
             index + 1
         }
     }
+    Column() {
+        
+    }
     Box(modifier = modifier)
 }
 

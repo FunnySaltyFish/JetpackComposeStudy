@@ -46,9 +46,9 @@ class MainActivity : ComponentActivity() {
 //                EScreen()
 //                EditTest()
 //                MarkdownTest()
-//                CustomLayoutTest()
+                CustomLayoutTest()
 //                TraverseModifier()
-                ModifierSample1()
+//                ModifierSample1()
             }
 //            PopularBooksDemo()
         }
