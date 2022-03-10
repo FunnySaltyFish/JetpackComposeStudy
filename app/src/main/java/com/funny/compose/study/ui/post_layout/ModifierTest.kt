@@ -10,6 +10,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.IntrinsicMeasurable
+import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.unit.dp
 
 private const val TAG = "ModifierTest"
@@ -43,6 +45,25 @@ fun ModifierSample1() {
         Box(modifier = Modifier
             .fillMaxSize()
             .wrapContentSize(align = Alignment.Center)
+            .size(50.dp)
+            .background(Color.Blue))
+    }
+}
+/**
+ * 一个修饰符[Modifier]，为父布局[Layout]提供数据.
+ * 可在[Layout]的 measurement 和 positioning 过程中通过 [IntrinsicMeasurable.parentData] 读取到.
+ * parent data 通常被用于告诉父布局：子微件应该如何测量和定位
+ */
+@Composable
+fun ModifierSample2() {
+    // 父元素
+    Box(modifier = Modifier
+        .width(200.dp)
+        .height(300.dp)
+        .background(Color.Yellow)){
+        // 子元素
+        Box(modifier = Modifier
+            .align(Alignment.Center)
             .size(50.dp)
             .background(Color.Blue))
     }
