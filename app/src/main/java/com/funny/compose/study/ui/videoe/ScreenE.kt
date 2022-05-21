@@ -15,14 +15,13 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.funny.cmaterialcolors.MaterialColors
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import kotlin.math.min
+//import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun EScreen() {
     DraggableBox()
-    val systemUiController = rememberSystemUiController()
-    systemUiController.setStatusBarColor(Color.Green)
+//    val systemUiController = rememberSystemUiController()
+//    systemUiController.setStatusBarColor(Color.Green)
 }
 
 

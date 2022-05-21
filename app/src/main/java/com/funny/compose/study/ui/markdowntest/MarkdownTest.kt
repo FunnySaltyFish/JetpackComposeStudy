@@ -16,8 +16,18 @@ fun MarkdownTest() {
         <strong>词性：</strong>感叹词  
         <strong>相似词汇：</strong>  
         Hello!  你好!;喂!;  
-        Hi!  嗨!;你好!;  
-        Hallo!  你好!;  
+        Hi!  嗨!;你好!;   
+        Hallo!  你好!;    
+          
+            
+        | 源 | 片假名 | 平假名 | 罗马字 |  
+        |:---|:---|:---|:---|  
+        | 理解 | リカイ | りかい | rikai |  
+        | できない | デキナイ | できない | dekinai |  
+        
+        
+        <ruby>别不信<rt>biebuxin</rt></ruby>
+        
     """.trimIndent()
     MarkdownText(markdown = text)
 }

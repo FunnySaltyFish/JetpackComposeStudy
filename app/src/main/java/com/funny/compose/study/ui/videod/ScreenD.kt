@@ -4,7 +4,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.*
-import androidx.compose.ui.res.stringResource
 
 @Composable
 fun ScreenD() {
@@ -13,7 +12,7 @@ fun ScreenD() {
             AppBar()
         }
     ) {
-
+        Text("content padding: $it")
     }
 }
 
@@ -51,6 +50,7 @@ fun AppBar() {
 //                        }
 //                    }
                     Text("Normal Item")
+
                 }
                 ExpandableDropdownItem(text = "Expandable") {
                     DropdownMenuItem(onClick = {}) {
@@ -78,11 +78,12 @@ fun ExpandableDropdownItem(
         expanded = true
     }) {
         Text(text = text)
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            dropDownItems()
+        }
     }
-    DropdownMenu(
-        expanded = expanded,
-        onDismissRequest = { expanded = false }
-    ) {
-        dropDownItems()
-    }
+
 }

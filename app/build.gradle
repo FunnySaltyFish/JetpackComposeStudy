@@ -12,7 +12,7 @@ android {
         minSdk 21
         targetSdk 30
         versionCode 1
-        versionName "1.0"
+        versionName "1.00"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -36,6 +36,7 @@ android {
     }
     buildFeatures {
         compose true
+        viewBinding true
     }
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
@@ -53,8 +54,8 @@ dependencies {
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-    implementation "com.google.accompanist:accompanist-systemuicontroller:0.22.0-rc"
-    implementation "com.google.accompanist:accompanist-insets:0.22.0-rc"
+//    implementation "com.google.accompanist:accompanist-systemuicontroller:v0.24.9-beta"
+//    implementation "com.google.accompanist:accompanist-insets:v0.24.9-beta"
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0'
     implementation 'androidx.activity:activity-compose:1.4.0'
 
@@ -62,8 +63,15 @@ dependencies {
     implementation "com.github.FunnySaltyFish:CMaterialColors:1.0.21"
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0"
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
+    implementation 'com.gitee.funnysaltyfish:FunnyBottomNavigation:v1.1.0'
+
 
     implementation 'com.github.jeziellago:compose-markdown:0.2.6'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.navigation:navigation-fragment:2.4.1'
+    implementation 'androidx.navigation:navigation-ui:2.4.1'
 
 
     testImplementation 'junit:junit:4.13.2'

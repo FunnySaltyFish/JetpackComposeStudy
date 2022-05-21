@@ -1,5 +1,6 @@
 package com.funny.compose.study
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -8,22 +9,25 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.Button
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import com.funny.compose.study.ui.edittest.EditTest
 import com.funny.compose.study.ui.markdowntest.MarkdownTest
+import com.funny.compose.study.ui.post_draw.CustomNavTest
 import com.funny.compose.study.ui.post_layout.*
+import com.funny.compose.study.ui.post_lazygrid.*
 import com.funny.compose.study.ui.posta.FScreen
 import com.funny.compose.study.ui.posta.PopularBooksDemo
 import com.funny.compose.study.ui.postb.SnakeGame
 import com.funny.compose.study.ui.theme.JetpackComposeStudyTheme
+import com.funny.compose.study.ui.videod.ScreenD
 import com.funny.compose.study.ui.videoe.EScreen
 
 class MainActivity : ComponentActivity() {
-    @ExperimentalFoundationApi
-    @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.layout_edit)
@@ -49,7 +53,23 @@ class MainActivity : ComponentActivity() {
 //                ModifierSample1()
 //                ModifierSample2()
 //                CountNumTest()
-                WeightedVerticalLayoutTest()
+//                WeightedVerticalLayoutTest()
+//                Button(onClick = {
+//                    val intent : Intent = Intent(this@MainActivity, SecondActivity::class.java)
+//                    startActivity(intent)
+//                        //Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+//
+//                }) {
+//                    Text(text = "跳转到第二个")
+//                }
+//                CustomNavTest()
+//                ScreenD()
+//                SimpleLazyGrid()
+//                SimpleLazyGridWithSpace()
+//                SimpleLazyGridAda()
+//                SimpleLazyGridWithSpan()
+//                SimpleLazyGridCustom()
+                SimpleLazyGridStaggered()
             }
 //            PopularBooksDemo()
         }

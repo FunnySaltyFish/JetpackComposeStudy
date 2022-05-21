@@ -4,14 +4,32 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.funny.cmaterialcolors.MaterialColors
 import kotlin.random.Random
 
 fun randomColor() = Color(Random.nextInt(255),Random.nextInt(255),Random.nextInt(255))
+
+@Composable
+fun rememberRandomColor() = rememberSaveable(
+    saver = Saver(
+        save = {
+            value -> value.toArgb()
+        },
+        restore = {
+            Color(it)
+        }
+    )
+) {
+    randomColor()
+}
 
 @Composable
 fun CustomLayoutTest() {
@@ -28,7 +46,11 @@ fun CustomLayoutTest() {
 //        }
 //    }
     val text = arrayOf("Funny","Salty","Fish","is","Very","Salty")
-    VerticalLayoutWithIntrinsic(Modifier.width(IntrinsicSize.Min).padding(12.dp).background(MaterialColors.Yellow100)) {
+    VerticalLayoutWithIntrinsic(
+        Modifier
+            .width(IntrinsicSize.Min)
+            .padding(12.dp)
+            .background(MaterialColors.Yellow100)) {
         text.forEach {
             Text(text = it, fontSize = 24.sp)
         }
