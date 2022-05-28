@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import com.funny.compose.study.ui.edittest.EditTest
 import com.funny.compose.study.ui.markdowntest.MarkdownTest
+import com.funny.compose.study.ui.physics_layout.PhysicsLayoutTest
 import com.funny.compose.study.ui.post_draw.CustomNavTest
 import com.funny.compose.study.ui.post_layout.*
 import com.funny.compose.study.ui.post_lazygrid.*
@@ -69,7 +70,8 @@ class MainActivity : ComponentActivity() {
 //                SimpleLazyGridAda()
 //                SimpleLazyGridWithSpan()
 //                SimpleLazyGridCustom()
-                SimpleLazyGridStaggered()
+//                SimpleLazyGridStaggered()
+                PhysicsLayoutTest()
             }
 //            PopularBooksDemo()
         }
