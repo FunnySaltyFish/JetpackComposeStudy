@@ -131,6 +131,9 @@ class Physics constructor(val composableGroup: ComposableGroup) {
         override fun postSolve(contact: Contact, impulse: ContactImpulse) {}
     }
 
+    fun step(){
+        world?.step(FRAME_RATE, velocityIterations, positionIterations)
+    }
 
     fun metersToPixels(meters: Float): Float {
         return meters * pixelsPerMeter

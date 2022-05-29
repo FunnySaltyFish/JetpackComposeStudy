@@ -5,12 +5,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.*
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.funny.compose.study.ui.post_lazygrid.RandomColorBox
 import kotlinx.coroutines.delay
+import org.jbox2d.common.Vec2
 
 private const val TAG = "PhysicsLayout"
 
@@ -36,9 +38,7 @@ fun PhysicsLayout(
     content : @Composable PhysicsLayoutScope.()->Unit,
 ){
     val parentDataList = physicsLayoutState.physics.composableGroup.physicsParentDatas
-    val physics by remember {
-        mutableStateOf(physicsLayoutState.physics)
-    }
+    val physics = physicsLayoutState.physics
     val density = LocalDensity.current
     var initialized by remember {
         mutableStateOf(false)
@@ -47,7 +47,7 @@ fun PhysicsLayout(
     LaunchedEffect(key1 = density){
         physics.density = density.density
         physics.pixelsPerMeter = with(density){
-            1.dp.toPx()
+            10.dp.toPx()
         }
     }
 
@@ -56,9 +56,9 @@ fun PhysicsLayout(
     }
 
     // 这一行很重要？会强制重组
-    val places by remember(recompose) {
-        mutableStateOf(parentDataList.map { physics.metersToPixels(it.x).toInt() to physics.metersToPixels(it.y).toInt() })
-    }
+//    val places by remember(recompose) {
+//        mutableStateOf(parentDataList.map { physics.metersToPixels(it.x).toInt() to physics.metersToPixels(it.y).toInt() })
+//    }
 
     LaunchedEffect(initialized){
         Log.d(TAG, "PhysicsLayout: launchedEffect ${parentDataList.size} ${physics.width}")
@@ -68,14 +68,14 @@ fun PhysicsLayout(
             parentDataList[i].body = body
             Log.d(TAG, "PhysicsLayout: createBody: $body")
         }
+        physics.giveRandomImpulse()
     }
 
     LaunchedEffect(key1 = Unit){
-        physics.giveRandomImpulse()
         while (true){
             delay(16)
-            physics.world?.step(100f, physics.velocityIterations, physics.velocityIterations)
-            Log.d(TAG, "PhysicsLayout: ${physics.world?.bodyList?.position}")
+            physics.step()
+//            Log.d(TAG, "PhysicsLayout: ${physics.world?.bodyList?.position}")
             recompose++
         }
     }
@@ -107,7 +107,9 @@ fun PhysicsLayout(
                 val x = physics.metersToPixels(parentDataList[i].x).toInt()
                 val y = physics.metersToPixels(parentDataList[i].y).toInt()
 
-                Log.d(TAG, "PhysicsLayout: x : $x y : $y")
+                val c = recompose // 这行代码什么用也没有，目的是触发重新Layout
+
+//                Log.d(TAG, "PhysicsLayout: x : $x y : $y")
 //                Log.d(TAG, "PhysicsLayout: $recompose")
                 placeable.place(x, y)
             }

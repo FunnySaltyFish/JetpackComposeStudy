@@ -9,14 +9,17 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Button
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.unit.dp
 import com.funny.compose.study.ui.edittest.EditTest
 import com.funny.compose.study.ui.markdowntest.MarkdownTest
+import com.funny.compose.study.ui.physics_layout.LayoutRecomposeTest
 import com.funny.compose.study.ui.physics_layout.PhysicsLayoutTest
 import com.funny.compose.study.ui.post_draw.CustomNavTest
 import com.funny.compose.study.ui.post_layout.*
@@ -72,6 +75,10 @@ class MainActivity : ComponentActivity() {
 //                SimpleLazyGridCustom()
 //                SimpleLazyGridStaggered()
                 PhysicsLayoutTest()
+//                LayoutRecomposeTest(Modifier.fillMaxSize()) {
+//                    RandomColorBox(modifier = Modifier.size(50.dp))
+//                    RandomColorBox(modifier = Modifier.size(60.dp))
+//                }
             }
 //            PopularBooksDemo()
         }
