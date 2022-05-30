@@ -20,6 +20,7 @@ import androidx.compose.ui.layout.*
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight.Companion.W500
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.funny.cmaterialcolors.MaterialColors
@@ -84,6 +85,7 @@ fun PhysicsLayout(
         physics.world?.gravity = gravity
         if (boundSize != null && boundSize > 0){
             physics.setBoundsSize(boundSize)
+            Log.d(TAG, "PhysicsLayout: enableBound")
         }
         physics.giveRandomImpulse()
     }
@@ -99,6 +101,7 @@ fun PhysicsLayout(
 
     val drawBoundModifier = remember {
         Modifier.drawWithContent {
+            Log.d(TAG, "PhysicsLayout: hasBound: ${physics.hasBounds} $boundColor")
             if (physics.hasBounds && boundColor != null){
                 // 绘制 bound
                 val s = physics.boundsSizeInPixel
@@ -108,6 +111,7 @@ fun PhysicsLayout(
                 drawRect(boundColor, Offset(0f, h-s), Size(w,s))
                 drawRect(boundColor, Offset(0f, s), Size(s, h - 2 * s))
                 drawRect(boundColor, Offset(w - s, s), Size(s, h - 2 * s))
+                Log.d(TAG, "PhysicsLayout: drawBound")
             }
             drawContent()
         }
@@ -118,7 +122,7 @@ fun PhysicsLayout(
         }
 
         val childConstraints = constraints.copy(minWidth = 0, minHeight = 0)
-        val placeables = measurables.mapIndexed { index,  measurable ->
+        val placeables = measurables.mapIndexed { index,  measurable : Measurable ->
             val physicsParentData = (measurable.parentData as? PhysicsParentData) ?: PhysicsParentData()
             Log.d(TAG, "PhysicsLayout: init : $initialized")
             if (!initialized){
@@ -141,7 +145,10 @@ fun PhysicsLayout(
 
 //                Log.d(TAG, "PhysicsLayout: x : $x y : $y")
 //                Log.d(TAG, "PhysicsLayout: $recompose")
-                placeable.place(x, y)
+//                placeable.place(x, y)
+                placeable.placeWithLayer(IntOffset(x,y), layerBlock = {
+                    rotationZ = parentDataList[i].rotation
+                })
             }
         }.also {
             // 各类初始化只进行一次即可
@@ -161,9 +168,9 @@ fun PhysicsLayoutTest() {
             .fillMaxSize()
             .padding(12.dp)
             .background(Color.LightGray)) {
-//        RandomColorBox(modifier = Modifier
-//            .size(40.dp)
-//            .physics(physicsConfig))
+        RandomColorBox(modifier = Modifier
+            .size(40.dp)
+            .physics(physicsConfig))
         RandomColorBox(modifier = Modifier
             .clip(CircleShape)
             .size(50.dp)

@@ -75,12 +75,12 @@ class MainActivity : ComponentActivity() {
 //                SimpleLazyGridWithSpan()
 //                SimpleLazyGridCustom()
 //                SimpleLazyGridStaggered()
-//                PhysicsLayoutTest()
+                PhysicsLayoutTest()
 //                LayoutRecomposeTest(Modifier.fillMaxSize()) {
 //                    RandomColorBox(modifier = Modifier.size(50.dp))
 //                    RandomColorBox(modifier = Modifier.size(60.dp))
 //                }
-                FakeKeep()
+//                FakeKeep()
             }
 //            PopularBooksDemo()
         }

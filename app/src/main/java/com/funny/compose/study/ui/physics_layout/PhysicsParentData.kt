@@ -16,7 +16,7 @@ class PhysicsParentData(
     var body : Body? = null
 
     val rotation
-        get() = body?.angle ?: 0f
+        get() = body?.angle?.times(180f)?.div(2*Math.PI)?.toFloat() ?: 0f
 
     val id = hashCode()
     val x : Float

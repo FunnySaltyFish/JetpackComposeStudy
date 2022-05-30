@@ -29,6 +29,11 @@ import kotlin.random.Random
 
 data class ItemData(val content :String, val num : Int)
 
+/**
+ * 高仿 Keep 统计页面——周视图
+ * 不可以动，只有形似
+ * 作者: FunnySaltyFish
+ */
 @Composable
 fun FakeKeep() {
     val times = arrayListOf("3/1-3/6","3/7-3/13","3/14-3/20","3/21-3/27","3/28-4/3","4/4-4/10","4/11-4/17","4/18-4/24","4/25-5/1","5/2-5/8","5/9-5/15","5/16-5/22", "本周")
@@ -100,18 +105,28 @@ fun FakeKeep() {
 
 }
 
+/**
+ * 数据统计图
+ * @param modifier Modifier
+ * @param listData List<ItemData> 数据
+ * @param startIndex Int 最左侧的矩阵对应的index
+ */
 @Composable
 fun Statistics(
     modifier: Modifier,
     listData: List<ItemData>,
     startIndex : Int = 0,
 ) {
+    // 最大的数字，所有矩形以这个为基准计算高度
     val maxNum = listData.maxOf { it.num }
+    // 深浅两种绿色
     val lightColor = Color(144, 225, 193)
     val highlightColor = Color(36, 198, 138)
+    // 这个rect用于存放paint测出的文字大小
     val rect = remember {
         android.graphics.Rect()
     }
+    // 这个paint用于绘制文字
     val paint = remember {
         android.graphics.Paint().apply {
             isAntiAlias = true
@@ -121,79 +136,53 @@ fun Statistics(
     }
 
     Canvas(modifier = modifier){
+        // 画布的宽高
         val w = size.width
         val h = size.height
+        // 最高的矩形占的高度（3/6)
         val maxH = h / 2
+        // 举行的宽度
         val blockW = w / 12f
 
         for (i in 0 until min(5, listData.size - startIndex)){
             val data = listData[startIndex + i]
             if (i != 2){
+                // 画四个浅色矩形
                 val blockH = data.num.toFloat() / maxNum * maxH
                 drawRect(lightColor, Offset(w / 4f * i - blockW / 2, 0.833f * h - blockH), Size(blockW, blockH))
                 drawLine(Color.LightGray, Offset(w / 4f * i, h * 11 / 12), Offset(w / 4f * i, h * 11 / 12 + 16f), 4f)
-
+                // 浅色矩形下方的文字
                 paint.color = Color.Gray.toArgb()
                 drawIntoCanvas {
                     FunnyCanvasUtils.drawCenterText(it.nativeCanvas, data.content, w / 4f * i , h * 7 / 8 + 2f,  rect, paint)
                 }
             }
         }
+        // 三条浅色横线
         for (i in 2 until 5){
             drawLine(Color.Black.copy(alpha = 0.5f), Offset(0f, h * i / 6), Offset(w, h * i / 6), pathEffect = PathEffect.dashPathEffect(
                 floatArrayOf(10f,10f)))
         }
+        // 深色横线
         drawLine(highlightColor, Offset(0f, h * 5 / 6), Offset(w, h * 5 / 6),  4f)
+        // 中间深色矩形
         val blockH = listData[startIndex + 2].num.toFloat() / maxNum * maxH
         drawRect(highlightColor, Offset(w / 2 - blockW / 2, 0.833f * h - blockH), Size(blockW, blockH))
         drawLine(highlightColor, Offset(w/2, 20f), Offset(w / 2, 0.833f * h - blockH), 4f)
-
+        // 显示文本的圆角矩形
         drawRoundRect(Color(35,199,136), Offset(w / 2 - blockW * 2 / 3 - 4f, h / 8), Size(blockW * 4f / 3 + 8f, h / 12f), CornerRadius(12f, 12f))
         drawLine(highlightColor, Offset(w / 2f, h * 11 / 12), Offset(w / 2f, h - 20f), 4f)
 
+        // 中间底部文字
         paint.color = Color.Black.toArgb()
         drawIntoCanvas {
             FunnyCanvasUtils.drawCenterText(it.nativeCanvas, listData[startIndex+2].content, w / 2 , h * 7 / 8 + 2f,  rect, paint)
         }
 
+        // 圆角矩形内部文字
         paint.color = Color.White.toArgb()
         drawIntoCanvas {
             FunnyCanvasUtils.drawCenterText(it.nativeCanvas, "${listData[startIndex+2].num} 分钟", w / 2, h / 8 + h / 24f,  rect, paint)
         }
     }
 }
-
-//@Composable
-//fun Statistics(
-//    modifier: Modifier,
-//    listData : List<ItemData>
-//) {
-//    AndroidView(
-//        modifier = modifier,
-//        factory = {
-//            RecyclerView(it).apply {
-//                val layoutManager = SliderLayoutManager(it, this)
-//                layoutManager.orientation = LinearLayoutManager.HORIZONTAL
-//                layoutManager.reverseLayout = true
-//                layoutManager.callback = object :
-//                    SliderLayoutManager.OnItemSelectedListener {
-//                    override fun onItemSelected(layoutPosition: Int) {
-//                        for (item in listData) {
-//                            item.isSelect = false
-//                        }
-//                        listData[layoutPosition].isSelect = true
-//                        adapter!!.notifyDataSetChanged()
-//                        //加载更多
-////                        if (layoutPosition >= listData.size - 3) {
-////                            loadMore()
-////                        }
-//                    }
-//                }
-//                adapter = PickerAdapter(it, listData, this)
-//                val snapHelper: SnapHelper = LinearSnapHelper()
-//                snapHelper.attachToRecyclerView(this)
-//                this.layoutManager = layoutManager
-//            }
-//        }
-//    )
-//}
