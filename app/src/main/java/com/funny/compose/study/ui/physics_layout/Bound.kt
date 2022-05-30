@@ -5,7 +5,7 @@ import org.jbox2d.dynamics.Body
 /**
  * A bound around the edge of the view
  */
-internal data class Bound(
+data class Bound(
     val widthInPixels: Float,
     val heightInPixels: Float,
     val body: Body,

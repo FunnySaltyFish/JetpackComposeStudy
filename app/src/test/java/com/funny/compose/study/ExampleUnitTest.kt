@@ -7,6 +7,7 @@ import com.funny.compose.study.ui.postb.SnakeState
 import org.junit.Test
 
 import org.junit.Assert.*
+import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -34,6 +35,33 @@ class ExampleUnitTest {
         val state2 = state.copy(blockSize = 21f)
         println(state2.hashCode())
     }
+
+    @Test
+    fun createData(){
+        val calendar = Calendar.getInstance(Locale.CHINA)
+        println(getDateRange("2022-2-28","2022-5-29"))
+    }
+
+    // 获取日期范围（用于折线图)
+    fun getDateRange(startDate: String, endDate: String): List<String> {
+        val sdf = SimpleDateFormat("yyyy-MM-dd")
+        val ssdf = SimpleDateFormat("MM/dd")
+        val calendar = Calendar.getInstance()
+        val sDate = sdf.parse(startDate)
+        calendar.time = sDate
+        val calendarEnd = Calendar.getInstance()
+        calendarEnd.time = sDate
+        val dateList = ArrayList<String>()
+        dateList.add(ssdf.format(sDate))
+        val edate = sdf.parse(endDate)
+        while (calendarEnd.time.before(edate)) {
+            calendarEnd.add(Calendar.DAY_OF_MONTH, 1)
+            val tempDate = ssdf.format(calendarEnd.time)
+            dateList.add(tempDate)
+        }
+        return dateList
+    }
+
 
 
 }

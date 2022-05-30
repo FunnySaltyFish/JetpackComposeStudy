@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import com.funny.compose.study.ui.edittest.EditTest
+import com.funny.compose.study.ui.like_keep.FakeKeep
 import com.funny.compose.study.ui.markdowntest.MarkdownTest
 import com.funny.compose.study.ui.physics_layout.LayoutRecomposeTest
 import com.funny.compose.study.ui.physics_layout.PhysicsLayoutTest
@@ -74,11 +75,12 @@ class MainActivity : ComponentActivity() {
 //                SimpleLazyGridWithSpan()
 //                SimpleLazyGridCustom()
 //                SimpleLazyGridStaggered()
-                PhysicsLayoutTest()
+//                PhysicsLayoutTest()
 //                LayoutRecomposeTest(Modifier.fillMaxSize()) {
 //                    RandomColorBox(modifier = Modifier.size(50.dp))
 //                    RandomColorBox(modifier = Modifier.size(60.dp))
 //                }
+                FakeKeep()
             }
 //            PopularBooksDemo()
         }

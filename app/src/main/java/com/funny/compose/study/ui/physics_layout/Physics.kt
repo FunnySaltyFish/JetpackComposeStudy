@@ -91,8 +91,8 @@ class Physics constructor(val composableGroup: ComposableGroup) {
      */
     var hasBounds = true
 
-    private var boundsSize = 1f
-    private val bounds = mutableListOf<Bound>()
+    var boundsSizeInPixel = 1f
+    val bounds = mutableListOf<Bound>()
     private var gravityX = 0.0f
     private var gravityY = EARTH_GRAVITY
 
@@ -215,7 +215,7 @@ class Physics constructor(val composableGroup: ComposableGroup) {
     private fun createBounds() {
         val top = createBound(
                 widthInPixels = width.toFloat(),
-                heightInPixels = boundsSize,
+                heightInPixels = boundsSizeInPixel,
                 id = ID_BOUND_TOP,
                 side = Bound.Side.TOP
         )
@@ -223,14 +223,14 @@ class Physics constructor(val composableGroup: ComposableGroup) {
 
         val bottom = createBound(
                 widthInPixels = width.toFloat(),
-                heightInPixels = boundsSize,
+                heightInPixels = boundsSizeInPixel,
                 id = ID_BOUND_BOTTOM,
                 side = Bound.Side.BOTTOM
         )
         bounds.add(bottom)
 
         val left = createBound(
-                widthInPixels = boundsSize,
+                widthInPixels = boundsSizeInPixel,
                 heightInPixels = height.toFloat(),
                 id = ID_BOUND_LEFT,
                 side = Bound.Side.LEFT
@@ -238,7 +238,7 @@ class Physics constructor(val composableGroup: ComposableGroup) {
         bounds.add(left)
 
         val right = createBound(
-                widthInPixels = boundsSize,
+                widthInPixels = boundsSizeInPixel,
                 heightInPixels = height.toFloat(),
                 id = ID_BOUND_RIGHT,
                 side = Bound.Side.RIGHT
@@ -252,15 +252,15 @@ class Physics constructor(val composableGroup: ComposableGroup) {
         val box = PolygonShape()
         val boxWidthMeters = pixelsToMeters(widthInPixels)
         val boxHeightMeters = pixelsToMeters(heightInPixels)
-        box.setAsBox(boxWidthMeters, boxHeightMeters)
+        box.setAsBox(boxWidthMeters / 2, boxHeightMeters / 2)
         val fixtureDef = createBoundFixtureDef(box, id)
         val pair = when (side) {
-            Bound.Side.TOP -> Pair(0f, -boxHeightMeters)
-            Bound.Side.BOTTOM -> Pair(0f, pixelsToMeters(height.toFloat()) + boxHeightMeters)
-            Bound.Side.LEFT -> Pair(-boxWidthMeters, 0f)
-            Bound.Side.RIGHT -> Pair(pixelsToMeters(width.toFloat()) + boxWidthMeters, 0f)
+            Bound.Side.TOP -> Pair(boxWidthMeters / 2, boxHeightMeters / 2)
+            Bound.Side.BOTTOM -> Pair(boxWidthMeters / 2, pixelsToMeters(height.toFloat()) - boxHeightMeters / 2)
+            Bound.Side.LEFT -> Pair(boxWidthMeters / 2, pixelsToMeters(height.toFloat()) / 2)
+            Bound.Side.RIGHT -> Pair(pixelsToMeters(width.toFloat()) - boxWidthMeters / 2, pixelsToMeters(height.toFloat()) / 2)
         }
-        bodyDef.position[pair.first] = pair.second
+        bodyDef.position = Vec2(pair.first, pair.second)
         val body = world!!.createBody(bodyDef)
         body.createFixture(fixtureDef)
         return Bound(
@@ -285,6 +285,9 @@ class Physics constructor(val composableGroup: ComposableGroup) {
         val config = physicsParentData.physicsConfig
         val bodyDef = config.bodyDef
         bodyDef.position[pixelsToMeters(physicsParentData.initialX + physicsParentData.width / 2)] = pixelsToMeters(physicsParentData.initialY + physicsParentData.height / 2)
+
+//        Log.d(TAG, "createBody: position: ${bodyDef.position}")
+
         if (oldBody != null) {
             bodyDef.angle = oldBody.angle
             bodyDef.angularVelocity = oldBody.angularVelocity
@@ -332,6 +335,7 @@ class Physics constructor(val composableGroup: ComposableGroup) {
         for (i in 0 until composableGroup.childCount) {
             impulse = Vec2((random.nextInt(1000) - 1000).toFloat(), (random.nextInt(1000) - 1000).toFloat())
             body = composableGroup.getChildAt(i).body
+            Log.d(TAG, "giveRandomImpulse: pody's position : ${body?.position}")
             body?.applyLinearImpulse(impulse, body.position)
         }
     }
@@ -367,7 +371,7 @@ class Physics constructor(val composableGroup: ComposableGroup) {
      * @param size the size of the bounds in dp
      */
     fun setBoundsSize(size: Float) {
-        boundsSize = size * density
+        boundsSizeInPixel = size * density
         if (hasBounds) {
             disableBounds()
         }
