@@ -11,12 +11,12 @@ class PhysicsParentData(
     var width: Int = 0,
     var height: Int = 0
 ) : ParentDataModifier {
-    override fun Density.modifyParentData(parentData: Any?): Any = this
+    override fun Density.modifyParentData(parentData: Any?): Any = this@PhysicsParentData
 
     var body : Body? = null
 
     val rotation
-        get() = body?.angle?.times(180f)?.div(2*Math.PI)?.toFloat() ?: 0f
+        get() = body?.angle?.times(180f)?.div(Math.PI)?.toFloat() ?: 0f
 
     val id = hashCode()
     val x : Float

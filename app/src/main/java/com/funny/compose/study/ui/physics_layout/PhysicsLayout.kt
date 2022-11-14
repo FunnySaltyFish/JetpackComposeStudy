@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.*
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
@@ -37,6 +38,7 @@ interface PhysicsLayoutScope {
 }
 
 object PhysicsLayoutScopeInstance : PhysicsLayoutScope {
+    @Stable
     override fun Modifier.physics(
         physicsConfig: PhysicsConfig,
         initialX: Float,
@@ -85,7 +87,6 @@ fun PhysicsLayout(
         physics.world?.gravity = gravity
         if (boundSize != null && boundSize > 0){
             physics.setBoundsSize(boundSize)
-            Log.d(TAG, "PhysicsLayout: enableBound")
         }
         physics.giveRandomImpulse()
     }
@@ -99,9 +100,8 @@ fun PhysicsLayout(
         }
     }
 
-    val drawBoundModifier = remember {
+    val drawBoundModifier =
         Modifier.drawWithContent {
-            Log.d(TAG, "PhysicsLayout: hasBound: ${physics.hasBounds} $boundColor")
             if (physics.hasBounds && boundColor != null){
                 // 绘制 bound
                 val s = physics.boundsSizeInPixel
@@ -111,23 +111,22 @@ fun PhysicsLayout(
                 drawRect(boundColor, Offset(0f, h-s), Size(w,s))
                 drawRect(boundColor, Offset(0f, s), Size(s, h - 2 * s))
                 drawRect(boundColor, Offset(w - s, s), Size(s, h - 2 * s))
-                Log.d(TAG, "PhysicsLayout: drawBound")
             }
             drawContent()
         }
-    }
+
     Layout(content = { PhysicsLayoutScopeInstance.content() }, modifier = modifier.then(drawBoundModifier)){ measurables, constraints ->
         if (!initialized) {
             physics.setSize(constraints.maxWidth, constraints.maxHeight)
         }
 
         val childConstraints = constraints.copy(minWidth = 0, minHeight = 0)
-        val placeables = measurables.mapIndexed { index,  measurable : Measurable ->
-            val physicsParentData = (measurable.parentData as? PhysicsParentData) ?: PhysicsParentData()
-            Log.d(TAG, "PhysicsLayout: init : $initialized")
+        val placeables = measurables.mapIndexed { index,  measurable ->
+            val physicsParentData = (measurable.parentData as? PhysicsParentData) ?: PhysicsParentData(initialX = 100f)
+//            Log.d(TAG, "PhysicsLayout: init : $initialized")
             if (!initialized){
                 parentDataList.add(index, physicsParentData)
-                Log.d(TAG, "PhysicsLayout: addParentData: $physicsParentData")
+//                Log.d(TAG, "PhysicsLayout: addParentData: (${physicsParentData.initialX}, ${physicsParentData.initialY})")
             }
             measurable.measure(childConstraints)
         }
@@ -143,11 +142,11 @@ fun PhysicsLayout(
 
                 val c = recompose // 这行代码什么用也没有，目的是触发重新 Layout
 
-//                Log.d(TAG, "PhysicsLayout: x : $x y : $y")
+//                Log.d(TAG, "PhysicsLayout: $i -> x : $x y : $y")
 //                Log.d(TAG, "PhysicsLayout: $recompose")
 //                placeable.place(x, y)
-                placeable.placeWithLayer(IntOffset(x,y), layerBlock = {
-                    rotationZ = parentDataList[i].rotation
+                placeable.placeWithLayer(IntOffset(x,y), zIndex = 0f, layerBlock = {
+                     rotationZ = parentDataList[i].rotation
                 })
             }
         }.also {
@@ -170,30 +169,30 @@ fun PhysicsLayoutTest() {
             .background(Color.LightGray)) {
         RandomColorBox(modifier = Modifier
             .size(40.dp)
-            .physics(physicsConfig))
+            .physics(physicsConfig, initialX = 300f, initialY = 500f))
         RandomColorBox(modifier = Modifier
             .clip(CircleShape)
             .size(50.dp)
-            .physics(physicsConfig, 300f, 500f))
-//        RandomColorBox(modifier = Modifier
-//            .size(60.dp)
-//            .physics(physicsConfig.copy(shape = PhysicsShape.CIRCLE)))
-//        var checked by remember {
-//            mutableStateOf(false)
-//        }
-//        Checkbox(checked = checked, onCheckedChange = { checked = it })
-//        Card(modifier = Modifier
-//            .clip(CircleShape)
-//            .physics(physicsConfig.copy(shape = PhysicsShape.CIRCLE), initialX = 200f)) {
-//            Image(painter = painterResource(id = R.drawable.bg_avator), contentDescription = "", modifier = Modifier.size(100.dp))
-//        }
-//        LazyColumn(modifier = Modifier
-//            .height(100.dp)
-//            .background(MaterialColors.Orange200)
-//            .physics(physicsConfig, initialY = 300f)){
-//            items(10){
-//                Text(text = "FunnySaltyFish", modifier = Modifier.padding(8.dp), fontWeight = W500, fontSize = 18.sp)
-//            }
-//        }
+            .physics(physicsConfig.copy(shape = PhysicsShape.CIRCLE), 300f, 1000f))
+        RandomColorBox(modifier = Modifier
+            .size(60.dp)
+            .physics(physicsConfig))
+        var checked by remember {
+            mutableStateOf(false)
+        }
+        Checkbox(checked = checked, onCheckedChange = { checked = it })
+        Card(modifier = Modifier
+            .clip(CircleShape)
+            .physics(physicsConfig.copy(shape = PhysicsShape.CIRCLE), initialX = 200f)) {
+            Image(painter = painterResource(id = R.drawable.bg_avator), contentDescription = "", modifier = Modifier.size(100.dp))
+        }
+        LazyColumn(modifier = Modifier
+            .height(100.dp)
+            .background(MaterialColors.Orange200)
+            .physics(physicsConfig, initialY = 300f)){
+            items(10){
+                Text(text = "FunnySaltyFish", modifier = Modifier.padding(8.dp), fontWeight = W500, fontSize = 18.sp)
+            }
+        }
     }
 }

@@ -19,6 +19,8 @@ import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -111,6 +113,7 @@ fun FakeKeep() {
  * @param listData List<ItemData> 数据
  * @param startIndex Int 最左侧的矩阵对应的index
  */
+@OptIn(ExperimentalTextApi::class)
 @Composable
 fun Statistics(
     modifier: Modifier,

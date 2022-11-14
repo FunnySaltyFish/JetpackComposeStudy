@@ -25,7 +25,7 @@ fun IntArray.minIndex() : Int {
 
 @Composable
 fun WaterfallFlowLayout(
-    modifier: Modifier = Modifier.size(40.dp),
+    modifier: Modifier,
     columns: Int = 2,  // 横向几列
     content: @Composable ()->Unit
 ) {
