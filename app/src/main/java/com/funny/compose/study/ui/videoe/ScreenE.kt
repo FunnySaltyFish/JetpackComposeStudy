@@ -20,8 +20,6 @@ import com.funny.cmaterialcolors.MaterialColors
 @Composable
 fun EScreen() {
     DraggableBox()
-//    val systemUiController = rememberSystemUiController()
-//    systemUiController.setStatusBarColor(Color.Green)
 }
 
 

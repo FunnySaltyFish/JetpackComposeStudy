@@ -23,6 +23,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.funny.cmaterialcolors.MaterialColors
+import com.funny.compose.study.ui.anim.NumberChangeAnimationText
+import com.funny.compose.study.ui.anim.NumberChangeAnimationTextTest
+import com.funny.compose.study.ui.event_test.ClickEventTest
 import com.funny.compose.study.ui.like_keep.FakeKeep
 import com.funny.compose.study.ui.markdowntest.MarkdownTest
 import com.funny.compose.study.ui.physics_layout.PhysicsLayoutTest
@@ -102,7 +105,9 @@ val pages: List<Pair<String, @Composable ()->Unit>> =
         "简易网格布局（自适应宽度，请横屏测试）" to { SimpleLazyGridAda() },
         "Markdown测试" to { MarkdownTest() },
         "下拉刷新测试" to { SwipeToRefreshTest() },
-        "DrawScope.drawText 测试" to { DrawTextTest() }
+        "DrawScope.drawText 测试" to { DrawTextTest() },
+        "点击事件传递" to { ClickEventTest() },
+        "动画变化的文本" to { NumberChangeAnimationTextTest() },
     )
 
 
