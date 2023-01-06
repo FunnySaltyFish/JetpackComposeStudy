@@ -60,6 +60,8 @@ dependencies {
 
     implementation "androidx.compose.runtime:runtime-livedata"
 
+    implementation "com.google.accompanist:accompanist-navigation-animation:0.28.0"
+
     //提供MaterialColors
     implementation "com.github.FunnySaltyFish:CMaterialColors:1.0.21"
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"

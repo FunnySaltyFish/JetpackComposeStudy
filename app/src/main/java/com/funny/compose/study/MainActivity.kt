@@ -28,6 +28,7 @@ import com.funny.compose.study.ui.anim.NumberChangeAnimationTextTest
 import com.funny.compose.study.ui.event_test.ClickEventTest
 import com.funny.compose.study.ui.like_keep.FakeKeep
 import com.funny.compose.study.ui.markdowntest.MarkdownTest
+import com.funny.compose.study.ui.nav.NavigationTest
 import com.funny.compose.study.ui.physics_layout.PhysicsLayoutTest
 import com.funny.compose.study.ui.post_draw.DrawTextTest
 import com.funny.compose.study.ui.post_layout.*
@@ -35,6 +36,7 @@ import com.funny.compose.study.ui.post_lazygrid.SimpleLazyGrid
 import com.funny.compose.study.ui.post_lazygrid.SimpleLazyGridAda
 import com.funny.compose.study.ui.post_lazygrid.SimpleLazyGridWithSpace
 import com.funny.compose.study.ui.refresh.SwipeToRefreshTest
+import com.funny.compose.study.ui.saveable.SimpleNavigationWithSaveableStateSample
 import com.funny.compose.study.ui.theme.JetpackComposeStudyTheme
 import kotlin.random.Random
 
@@ -108,6 +110,8 @@ val pages: List<Pair<String, @Composable ()->Unit>> =
         "DrawScope.drawText 测试" to { DrawTextTest() },
         "点击事件传递" to { ClickEventTest() },
         "动画变化的文本" to { NumberChangeAnimationTextTest() },
+        "跨屏状态保存（Google官方示例）" to { SimpleNavigationWithSaveableStateSample() },
+        "Navigation使用" to { NavigationTest() },
     )
 
 
