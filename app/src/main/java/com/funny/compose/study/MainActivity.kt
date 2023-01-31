@@ -23,12 +23,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.funny.cmaterialcolors.MaterialColors
-import com.funny.compose.study.ui.anim.NumberChangeAnimationText
 import com.funny.compose.study.ui.anim.NumberChangeAnimationTextTest
 import com.funny.compose.study.ui.event_test.ClickEventTest
 import com.funny.compose.study.ui.like_keep.FakeKeep
 import com.funny.compose.study.ui.markdowntest.MarkdownTest
 import com.funny.compose.study.ui.nav.NavigationTest
+import com.funny.compose.study.ui.pager.VerticalPagerTest
 import com.funny.compose.study.ui.physics_layout.PhysicsLayoutTest
 import com.funny.compose.study.ui.post_draw.DrawTextTest
 import com.funny.compose.study.ui.post_layout.*
@@ -50,6 +50,10 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
+// 下面可能在 Android Studio 中报错：
+// “Type inference failed. Expected type mismatch: inferred type is @Composable () -> Unit but () -> Unit was expected”
+// 这是 Kotlin 插件的问题，已经提交了 bug 反馈，可以正常编译运行
 
 val pages: List<Pair<String, @Composable ()->Unit>> =
     arrayListOf(
@@ -112,6 +116,7 @@ val pages: List<Pair<String, @Composable ()->Unit>> =
         "动画变化的文本" to { NumberChangeAnimationTextTest() },
         "跨屏状态保存（Google官方示例）" to { SimpleNavigationWithSaveableStateSample() },
         "Navigation使用" to { NavigationTest() },
+        "PagerTest" to { VerticalPagerTest() }
     )
 
 

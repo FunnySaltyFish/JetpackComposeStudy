@@ -30,7 +30,7 @@ fun SwipeToRefreshTest(
     val state = rememberPullRefreshState(refreshing = refreshing, onRefresh = {
         scope.launch {
             refreshing = true
-            delay(1000) // 模拟数据加载
+//            delay(1000) // 模拟数据加载
             list+="Item ${list.size+1}"
             refreshing = false
         }
