@@ -28,6 +28,7 @@ import com.funny.compose.study.ui.event_test.ClickEventTest
 import com.funny.compose.study.ui.like_keep.FakeKeep
 import com.funny.compose.study.ui.markdowntest.MarkdownTest
 import com.funny.compose.study.ui.nav.NavigationTest
+import com.funny.compose.study.ui.others.RememberTest
 import com.funny.compose.study.ui.pager.VerticalPagerTest
 import com.funny.compose.study.ui.physics_layout.PhysicsLayoutTest
 import com.funny.compose.study.ui.post_draw.DrawTextTest
@@ -116,7 +117,8 @@ val pages: List<Pair<String, @Composable ()->Unit>> =
         "动画变化的文本" to { NumberChangeAnimationTextTest() },
         "跨屏状态保存（Google官方示例）" to { SimpleNavigationWithSaveableStateSample() },
         "Navigation使用" to { NavigationTest() },
-        "PagerTest" to { VerticalPagerTest() }
+        "PagerTest" to { VerticalPagerTest() },
+        "RememberTest" to { RememberTest() }
     )
 
 
