@@ -17,6 +17,9 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 
+// 这个文件在研究 Navigation 库的 saveState 和 restoreState
+// 它让页面切走在切回来时能够记住页面的数据
+// 前提是使用 rememberSaveable
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun NavigationTest() {

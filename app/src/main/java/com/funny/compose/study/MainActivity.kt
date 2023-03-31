@@ -31,11 +31,11 @@ import com.funny.compose.study.ui.nav.NavigationTest
 import com.funny.compose.study.ui.others.RememberTest
 import com.funny.compose.study.ui.pager.VerticalPagerTest
 import com.funny.compose.study.ui.physics_layout.PhysicsLayoutTest
-import com.funny.compose.study.ui.post_draw.DrawTextTest
 import com.funny.compose.study.ui.post_layout.*
 import com.funny.compose.study.ui.post_lazygrid.SimpleLazyGrid
 import com.funny.compose.study.ui.post_lazygrid.SimpleLazyGridAda
 import com.funny.compose.study.ui.post_lazygrid.SimpleLazyGridWithSpace
+import com.funny.compose.study.ui.game.SnakeGame
 import com.funny.compose.study.ui.refresh.SwipeToRefreshTest
 import com.funny.compose.study.ui.saveable.SimpleNavigationWithSaveableStateSample
 import com.funny.compose.study.ui.theme.JetpackComposeStudyTheme
@@ -46,7 +46,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             JetpackComposeStudyTheme {
-                Catalog()
+                SnakeGame()
+                // Catalog()
             }
         }
     }
@@ -112,13 +113,13 @@ val pages: List<Pair<String, @Composable ()->Unit>> =
         "简易网格布局（自适应宽度，请横屏测试）" to { SimpleLazyGridAda() },
         "Markdown测试" to { MarkdownTest() },
         "下拉刷新测试" to { SwipeToRefreshTest() },
-        "DrawScope.drawText 测试" to { DrawTextTest() },
         "点击事件传递" to { ClickEventTest() },
         "动画变化的文本" to { NumberChangeAnimationTextTest() },
         "跨屏状态保存（Google官方示例）" to { SimpleNavigationWithSaveableStateSample() },
         "Navigation使用" to { NavigationTest() },
         "PagerTest" to { VerticalPagerTest() },
-        "RememberTest" to { RememberTest() }
+        "RememberTest" to { RememberTest() },
+        "MVI 贪吃蛇小游戏" to { SnakeGame() }
     )
 
 
@@ -144,7 +145,7 @@ fun Catalog() {
                 // item 和 item 之间的横向间距
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ){
-                itemsIndexed(pages, key = { _, p -> p.first }){ i, pair ->
+                itemsIndexed(pages, key = { _, p -> p.first }){ _, pair ->
                     Card(
                         modifier = Modifier.clickable { content = pair.second },
                         shape = RoundedCornerShape(4.dp),

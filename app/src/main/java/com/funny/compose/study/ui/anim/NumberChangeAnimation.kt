@@ -133,7 +133,7 @@ fun AutoIncreaseAnimatedNumber(
         androidx.compose.animation.core.Animatable(0f)
     }
     // 数字格式化后的长度
-    val l = remember {
+    val l = remember(number) {
         number.toString().length
     }
 

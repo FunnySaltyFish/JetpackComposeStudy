@@ -1,12 +1,11 @@
 package com.funny.compose.study
 
-import com.funny.compose.study.ui.postb.MoveDirection
-import com.funny.compose.study.ui.postb.Point
-import com.funny.compose.study.ui.postb.Snake
-import com.funny.compose.study.ui.postb.SnakeState
+import com.funny.compose.study.ui.game.MoveDirection
+import com.funny.compose.study.ui.game.Point
+import com.funny.compose.study.ui.game.Snake
+import com.funny.compose.study.ui.game.SnakeState
 import org.junit.Test
 
-import org.junit.Assert.*
 import java.text.SimpleDateFormat
 import java.util.*
 

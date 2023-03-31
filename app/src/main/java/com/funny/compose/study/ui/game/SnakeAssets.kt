@@ -1,4 +1,4 @@
-package com.funny.compose.study.ui.postb
+package com.funny.compose.study.ui.game
 
 import com.funny.cmaterialcolors.MaterialColors
 

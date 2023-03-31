@@ -1,4 +1,4 @@
-package com.funny.compose.study.ui.postb
+package com.funny.compose.study.ui.game
 
 import android.util.Log
 import androidx.compose.foundation.Canvas
@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.drawscope.DrawScope
@@ -20,13 +21,14 @@ fun SnakeGame(
     modifier: Modifier = Modifier
 ) {
     val vm : SnakeGameViewModel = viewModel()
-    val snakeState by vm.snakeState.collectAsState()
+    val snakeState by vm.snakeState
 
     val scope = rememberCoroutineScope()
-    var gameTickFlag = true
-    DisposableEffect(key1 = 1){
+    var gameTickFlag = rememberSaveable {
+        true
+    }
+    DisposableEffect(key1 = Unit){
         snakeState.snake.direction = MoveDirection.DOWN
-
         scope.launch {
             while (gameTickFlag){
                 vm.dispatch(GameAction.GameTick)
@@ -47,7 +49,6 @@ fun SnakeGame(
             }
             Text(text = snakeState.snake.head.toString(), Modifier.weight(1f))
         }
-        
     }
     
 
@@ -56,9 +57,9 @@ fun SnakeGame(
 fun DrawScope.drawSnake(snakeState: SnakeState, snakeAssets : SnakeAssets){
     val size = Size(snakeState.blockSize, snakeState.blockSize)
     snakeState.snake.body.forEach {
-        if(it==snakeState.snake.head){
+        if(it == snakeState.snake.head){
             drawRect(snakeAssets.headColor, it.asOffset, size)
-        }else{
+        } else{
             drawRect(snakeAssets.bodyColor, it.asOffset, size)
         }
     }

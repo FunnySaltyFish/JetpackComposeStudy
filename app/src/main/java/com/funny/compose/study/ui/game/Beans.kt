@@ -1,11 +1,8 @@
-package com.funny.compose.study.ui.postb
+package com.funny.compose.study.ui.game
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.IntOffset
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.math.roundToInt
 
 enum class MoveDirection {
     RIGHT, UP, DOWN, LEFT;

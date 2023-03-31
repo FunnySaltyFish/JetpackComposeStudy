@@ -30,6 +30,9 @@ import com.funny.compose.study.ui.post_lazygrid.RandomColorBox
 import kotlinx.coroutines.delay
 import org.jbox2d.common.Vec2
 
+// 使用 Jetpack Compose 实现物理引擎布局
+// 代码已经挪到：https://github.com/FunnySaltyFish/JetpackComposePhysicsLayout
+
 private const val TAG = "PhysicsLayout"
 
 interface PhysicsLayoutScope {

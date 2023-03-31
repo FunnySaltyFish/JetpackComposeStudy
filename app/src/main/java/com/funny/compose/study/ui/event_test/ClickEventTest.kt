@@ -17,6 +17,8 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import kotlin.math.roundToInt
 
+// 下面的代码在探究这样一个事情
+// 把 Column 拖开后，才能点击 button
 @Composable
 fun ClickEventTest() {
     val ctx = LocalContext.current
