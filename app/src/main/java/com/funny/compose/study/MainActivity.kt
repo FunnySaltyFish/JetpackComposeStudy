@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import com.funny.cmaterialcolors.MaterialColors
 import com.funny.compose.study.ui.anim.NumberChangeAnimationTextTest
 import com.funny.compose.study.ui.event_test.ClickEventTest
+import com.funny.compose.study.ui.game.SnakeAssets
 import com.funny.compose.study.ui.like_keep.FakeKeep
 import com.funny.compose.study.ui.markdowntest.MarkdownTest
 import com.funny.compose.study.ui.nav.NavigationTest
@@ -39,15 +40,16 @@ import com.funny.compose.study.ui.game.SnakeGame
 import com.funny.compose.study.ui.refresh.SwipeToRefreshTest
 import com.funny.compose.study.ui.saveable.SimpleNavigationWithSaveableStateSample
 import com.funny.compose.study.ui.theme.JetpackComposeStudyTheme
+import com.funny.data_saver.core.DataSaverConverter
 import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             JetpackComposeStudyTheme {
-                SnakeGame()
-                // Catalog()
+                 Catalog()
             }
         }
     }

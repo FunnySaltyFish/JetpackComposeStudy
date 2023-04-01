@@ -1,6 +1,9 @@
 package com.funny.compose.study.ui.game
 
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.saveable.Saver
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import java.util.*
 
@@ -8,64 +11,49 @@ enum class MoveDirection {
     RIGHT, UP, DOWN, LEFT;
 }
 
-data class Point(var x: Float, var y: Float) {
-    fun reset(newX: Float, newY: Float) = this.apply {
-        x = newX
-        y = newY
-    }
-
+/**
+ * 代表相对位置
+ * @property x Int
+ * @property y Int
+ * @constructor
+ */
+@Stable
+data class Point(val x: Int, val y: Int) {
     override fun toString(): String {
         return "Point(x=$x, y=$y)"
     }
 
-    val asOffset : Offset
-        get() = Offset(x, y)
-
-
+    fun asOffset(blockSize: Size) = Offset(x * blockSize.width, y * blockSize.height)
 }
 
-data class Block(var place: Point, val color: Color)
-data class Snake(val body: LinkedList<Point>, val bodySize: Float, var direction: MoveDirection) {
+@Stable
+data class Snake(val body: LinkedList<Point>, val bodySize: Float, val direction: MoveDirection) {
     val head: Point
         get() = body.first
 
     private val headPlace
         get() = head
 
-//    fun move(grow:Boolean) {
-//        val tail = body[body.size - 1]
-//        val newBlock = if (grow)tail.copy() else tail
-//        val headPlace = head.place
-//        newBlock.place = when (direction) {
-//            MoveDirection.RIGHT -> head.place.reset(headPlace.x + bodySize, headPlace.y)
-//            MoveDirection.LEFT -> head.place.reset(headPlace.x - bodySize, headPlace.y)
-//            MoveDirection.UP -> head.place.reset(headPlace.x, headPlace.y - bodySize)
-//            MoveDirection.DOWN -> head.place.reset(headPlace.x, headPlace.y + bodySize)
-//        }
-//        body.add(0,newBlock)
-//        if(!grow)body.remove(tail)
-//    }
-
     fun nextPos() = when (direction) {
-        MoveDirection.RIGHT -> Point(headPlace.x + bodySize, headPlace.y)
-        MoveDirection.LEFT  -> Point(headPlace.x - bodySize, headPlace.y)
-        MoveDirection.UP    -> Point(headPlace.x, headPlace.y - bodySize)
-        MoveDirection.DOWN  -> Point(headPlace.x, headPlace.y + bodySize)
+        MoveDirection.RIGHT -> Point(headPlace.x + 1, headPlace.y)
+        MoveDirection.LEFT -> Point(headPlace.x - 1, headPlace.y)
+        MoveDirection.UP -> Point(headPlace.x, headPlace.y - 1)
+        MoveDirection.DOWN -> Point(headPlace.x, headPlace.y + 1)
     }
 
-    fun grow(pos : Point) = this.apply {
+    fun grow(pos: Point) = this.apply {
         body.addFirst(pos)
     }
 
-    fun move(pos: Point) = this.copy(body = this.body.apply  {
+    fun move(pos: Point) = this.copy(body = this.body.apply {
         body.removeLast()
         body.addFirst(pos)
-    } )
+    })
 
-    fun changeDirection(newDirection : MoveDirection) = this.apply {
+    fun changeDirection(newDirection: MoveDirection) =
         // 无法直接反向
-        if(direction.ordinal + newDirection.ordinal != 3){
-            direction = newDirection
-        }
-    }
+        if (direction.ordinal + newDirection.ordinal != 3) {
+            this.copy(direction = newDirection)
+        } else this
+
 }

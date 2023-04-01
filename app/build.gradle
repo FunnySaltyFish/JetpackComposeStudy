@@ -63,6 +63,7 @@ dependencies {
     implementation 'androidx.activity:activity-compose:1.6.1'
 
     implementation 'com.gitee.funnysaltyfish:FunnyBottomNavigation:v1.1.0'
+    implementation "com.github.FunnySaltyFish.ComposeDataSaver:data-saver:v1.1.5"
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
 
 

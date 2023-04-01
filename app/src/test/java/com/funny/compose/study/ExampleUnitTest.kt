@@ -17,7 +17,8 @@ import java.util.*
 class ExampleUnitTest {
     @Test
     fun stateTest(){
-        val state = SnakeState(snake = Snake(LinkedList<Point>().apply {
+        val state = SnakeState(
+            snake = Snake(LinkedList<Point>().apply {
             add(Point(200f,200f))
             add(Point(220f,200f))
             add(Point(240f,200f))
