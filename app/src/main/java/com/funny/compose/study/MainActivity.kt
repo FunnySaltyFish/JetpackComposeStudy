@@ -4,19 +4,38 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
-import androidx.compose.animation.*
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.with
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,22 +44,29 @@ import androidx.compose.ui.unit.sp
 import com.funny.cmaterialcolors.MaterialColors
 import com.funny.compose.study.ui.anim.NumberChangeAnimationTextTest
 import com.funny.compose.study.ui.event_test.ClickEventTest
-import com.funny.compose.study.ui.game.SnakeAssets
+import com.funny.compose.study.ui.feature.BasicMarqueeTest
+import com.funny.compose.study.ui.feature.FlowRowTest
+import com.funny.compose.study.ui.feature.HorizontalPagerWithIndicator
+import com.funny.compose.study.ui.game.SnakeGame
 import com.funny.compose.study.ui.like_keep.FakeKeep
 import com.funny.compose.study.ui.markdowntest.MarkdownTest
 import com.funny.compose.study.ui.nav.NavigationTest
 import com.funny.compose.study.ui.others.RememberTest
 import com.funny.compose.study.ui.pager.VerticalPagerTest
 import com.funny.compose.study.ui.physics_layout.PhysicsLayoutTest
-import com.funny.compose.study.ui.post_layout.*
+import com.funny.compose.study.ui.post_layout.CountNumTest
+import com.funny.compose.study.ui.post_layout.VerticalLayout
+import com.funny.compose.study.ui.post_layout.VerticalLayoutWithIntrinsic
+import com.funny.compose.study.ui.post_layout.WaterfallFlowLayout
+import com.funny.compose.study.ui.post_layout.WeightedVerticalLayoutTest
+import com.funny.compose.study.ui.post_layout.randomColor
+import com.funny.compose.study.ui.post_layout.rememberRandomColor
 import com.funny.compose.study.ui.post_lazygrid.SimpleLazyGrid
 import com.funny.compose.study.ui.post_lazygrid.SimpleLazyGridAda
 import com.funny.compose.study.ui.post_lazygrid.SimpleLazyGridWithSpace
-import com.funny.compose.study.ui.game.SnakeGame
 import com.funny.compose.study.ui.refresh.SwipeToRefreshTest
 import com.funny.compose.study.ui.saveable.SimpleNavigationWithSaveableStateSample
 import com.funny.compose.study.ui.theme.JetpackComposeStudyTheme
-import com.funny.data_saver.core.DataSaverConverter
 import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
@@ -121,7 +147,10 @@ val pages: List<Pair<String, @Composable ()->Unit>> =
         "Navigation使用" to { NavigationTest() },
         "PagerTest" to { VerticalPagerTest() },
         "RememberTest" to { RememberTest() },
-        "MVI 贪吃蛇小游戏" to { SnakeGame() }
+        "MVI 贪吃蛇小游戏" to { SnakeGame() },
+        "1.4:PagerWithIndicator" to { HorizontalPagerWithIndicator() },
+        "1.4:FlowRow" to { FlowRowTest() },
+        "1.4:跑马灯效果" to { BasicMarqueeTest() },
     )
 
 
@@ -132,7 +161,10 @@ fun Catalog() {
         mutableStateOf(null)
     }
     AnimatedContent(
-        targetState = content, Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .safeContentPadding(),
+        targetState = content,
         transitionSpec = {
             slideIntoContainer(AnimatedContentScope.SlideDirection.Right, tween(500)) with fadeOut() + slideOutOfContainer(AnimatedContentScope.SlideDirection.Left, tween(500))
         },
@@ -143,7 +175,7 @@ fun Catalog() {
                 // 整体内边距
                 contentPadding = PaddingValues(8.dp, 8.dp),
                 // item 和 item 之间的纵向间距
-                verticalArrangement = Arrangement.spacedBy(4.dp),
+                verticalItemSpacing = 8.dp,
                 // item 和 item 之间的横向间距
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ){

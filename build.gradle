@@ -1,7 +1,6 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     ext {
-        compose_version = "1.4.0-alpha05"
         compose_compiler_version = "1.4.0"
         kotlin_version = "1.8.0"
     }
@@ -40,6 +39,7 @@ subprojects {
     }
 }
 
+// 上面的配置为启用 编译报告的配置，来自：
 //作者：Pika
 //链接：https://juejin.cn/post/7139328582836289566
 //来源：稀土掘金
