@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.sp
 import com.funny.cmaterialcolors.MaterialColors
 import com.funny.compose.study.ui.anim.LazyListFadeInAnim
 import com.funny.compose.study.ui.anim.LazyListSlideInFromRightAnim
+import com.funny.compose.study.ui.anim.LazyListVisibility
 import com.funny.compose.study.ui.anim.NumberChangeAnimationTextTest
 import com.funny.compose.study.ui.event_test.ClickEventTest
 import com.funny.compose.study.ui.feature.BasicMarqueeTest
@@ -53,8 +54,6 @@ import com.funny.compose.study.ui.game.SnakeGame
 import com.funny.compose.study.ui.like_keep.FakeKeep
 import com.funny.compose.study.ui.markdowntest.MarkdownTest
 import com.funny.compose.study.ui.nav.NavigationTest
-import com.funny.compose.study.ui.others.Q76019878
-import com.funny.compose.study.ui.others.Q76025571
 import com.funny.compose.study.ui.others.RememberTest
 import com.funny.compose.study.ui.pager.VerticalPagerTest
 import com.funny.compose.study.ui.physics_layout.PhysicsLayoutTest
@@ -157,6 +156,7 @@ val pages: List<Pair<String, @Composable ()->Unit>> =
         "1.4:跑马灯效果" to { BasicMarqueeTest() },
         "列表动画（右侧位移进入）" to { LazyListSlideInFromRightAnim()  },
         "列表动画（FadeIn）" to { LazyListFadeInAnim()  },
+        "列表动画（AnimatedVisivility）" to { LazyListVisibility() }
     )
 
 

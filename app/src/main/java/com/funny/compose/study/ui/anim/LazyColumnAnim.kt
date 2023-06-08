@@ -1,5 +1,6 @@
 package com.funny.compose.study.ui.anim
 
+import androidx.compose.animation.*
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
@@ -10,15 +11,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.delay
 
 data class Student(val name: String, val age: Int) {
     override fun toString() = "I am $name, $age years old"
@@ -42,7 +43,10 @@ fun LazyListSlideInFromRightAnim() {
                     animationSpec = tween(700, easing = FastOutSlowInEasing)
                 )
             }
-            StudentItem(Modifier.background(MaterialTheme.colors.surface).graphicsLayer(translationX = animatedProgress.value), it)
+            StudentItem(
+                Modifier
+                    .background(MaterialTheme.colors.surface)
+                    .graphicsLayer(translationX = animatedProgress.value), it)
         }
     }
 }
@@ -63,6 +67,44 @@ fun LazyListFadeInAnim() {
             StudentItem(Modifier.graphicsLayer(alpha = animatedProgress.value), it)
         }
     }
+}
+
+@Composable
+fun LazyListVisibility() {
+    LazyColumn(
+        contentPadding = PaddingValues(12.dp)
+    ) {
+        itemsIndexed(list) { index, item ->
+            FireAndForgetEnter(index = index) {
+                StudentItem(Modifier, item)
+            }
+        }
+    }
+}
+
+@Composable
+fun FireAndForgetEnter(
+    index : Int,
+    modifier: Modifier = Modifier,
+    enter: EnterTransition = fadeIn() + expandIn(),
+    label: String = "FireAndForgetEnter",
+    content: @Composable AnimatedVisibilityScope.() -> Unit
+) {
+    var trigger by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        delay(100L)
+        trigger = true
+    }
+
+    AnimatedVisibility(
+        visible = trigger,
+        modifier = modifier,
+        enter = enter,
+        exit = ExitTransition.None,
+        label = label,
+        content = content
+    )
 }
 
 @Composable
