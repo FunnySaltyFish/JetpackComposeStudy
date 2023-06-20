@@ -70,7 +70,7 @@ fun LazyListFadeInAnim() {
 }
 
 @Composable
-fun LazyListVisibility() {
+fun LazyListAnimatedVisibility() {
     LazyColumn(
         contentPadding = PaddingValues(12.dp)
     ) {
