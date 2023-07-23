@@ -9,6 +9,7 @@ import androidx.compose.ui.layout.*
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
+import kotlin.math.roundToInt
 
 interface VerticalScope {
     @Stable
@@ -37,24 +38,27 @@ fun WeightedVerticalLayout(
     content: @Composable VerticalScope.() -> Unit
 ) {
     val measurePolicy = MeasurePolicy { measurables, constraints ->
-        val placeables = measurables.map {
-            it.measure(constraints)
-        }
+
         // 获取各weight值
         val weights = measurables.map {
             (it.parentData as WeightParentData).weight
         }
         val totalHeight = constraints.maxHeight
         val totalWeight = weights.sum()
+
+        val placeables = measurables.mapIndexed { i, mesurable ->
+            val h = (weights[i] / totalWeight * totalHeight).roundToInt()
+            mesurable.measure(constraints.copy(minHeight = h, maxHeight = h))
+        }
         // 宽度：最宽的一项
         val width = placeables.maxOf { it.width }
 
         layout(width, totalHeight) {
             var y = 0
-            placeables.forEachIndexed() { i, placeable ->
+            placeables.forEachIndexed { i, placeable ->
                 placeable.placeRelative(0, y)
                 // 按比例设置大小
-                y += (totalHeight * weights[i] / totalWeight).toInt()
+                y += placeable.height
             }
         }
     }
