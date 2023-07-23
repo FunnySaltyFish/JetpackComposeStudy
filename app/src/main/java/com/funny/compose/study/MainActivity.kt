@@ -58,6 +58,9 @@ import com.funny.compose.study.ui.others.RememberTest
 import com.funny.compose.study.ui.pager.VerticalPagerTest
 import com.funny.compose.study.ui.physics_layout.PhysicsLayoutTest
 import com.funny.compose.study.ui.post_layout.CountNumTest
+import com.funny.compose.study.ui.post_layout.SwipeCrossFadeLayout
+import com.funny.compose.study.ui.post_layout.SwipeCrossFadeLayoutTest
+import com.funny.compose.study.ui.post_layout.SwipeableDemo
 import com.funny.compose.study.ui.post_layout.VerticalLayout
 import com.funny.compose.study.ui.post_layout.VerticalLayoutWithIntrinsic
 import com.funny.compose.study.ui.post_layout.WaterfallFlowLayout
@@ -77,7 +80,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             JetpackComposeStudyTheme {
-                Catalog()
+                 Catalog()
             }
         }
     }
@@ -161,7 +164,7 @@ val pages: List<Pair<String, @Composable () -> Unit>> =
         "1.4:跑马灯效果" to { BasicMarqueeTest() },
         "列表动画（右侧位移进入）" to { LazyListSlideInFromRightAnim() },
         "列表动画（FadeIn）" to { LazyListFadeInAnim() },
-        "列表动画（错误工作的实现）（AnimatedVisibility）" to { LazyListAnimatedVisibility() }
+        "下拉渐变切换的布局" to { SwipeCrossFadeLayoutTest() }
     )
 
 
