@@ -34,7 +34,7 @@ fun WaterfallFlowLayout(
         content = content,
     ) { measurables: List<Measurable>, constrains: Constraints ->
         val itemWidth = constrains.maxWidth / columns
-        val itemConstraints = constrains.copy(minWidth = itemWidth, maxWidth = itemWidth)
+        val itemConstraints = constrains.copy(minWidth = itemWidth, maxWidth = itemWidth, minHeight = 0)
         val placeables = measurables.map { it.measure(itemConstraints) }
         // 记录当前各列高度
         val heights = IntArray(columns)
@@ -47,6 +47,4 @@ fun WaterfallFlowLayout(
             }
         }
     }
-
-
 }

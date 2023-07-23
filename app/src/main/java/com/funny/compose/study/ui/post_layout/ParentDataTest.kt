@@ -69,7 +69,7 @@ fun CountChildrenNumber(
             if (it.parentData is CountNumParentData) {
                 num += (it.parentData as CountNumParentData).countNum
             }
-            it.measure(constraints)
+            it.measure(constraints.copy(minWidth = 0, minHeight = 0))
         }
         // 宽度：最宽的一项
         val width = placeables.maxOf { it.width }

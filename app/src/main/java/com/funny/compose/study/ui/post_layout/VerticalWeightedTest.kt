@@ -38,7 +38,6 @@ fun WeightedVerticalLayout(
     content: @Composable VerticalScope.() -> Unit
 ) {
     val measurePolicy = MeasurePolicy { measurables, constraints ->
-
         // 获取各weight值
         val weights = measurables.map {
             (it.parentData as WeightParentData).weight
@@ -47,6 +46,7 @@ fun WeightedVerticalLayout(
         val totalWeight = weights.sum()
 
         val placeables = measurables.mapIndexed { i, mesurable ->
+            // 根据比例计算高度
             val h = (weights[i] / totalWeight * totalHeight).roundToInt()
             mesurable.measure(constraints.copy(minHeight = h, maxHeight = h))
         }
