@@ -24,11 +24,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.SubcomposeLayout
 import androidx.compose.ui.unit.Constraints
+import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
 import kotlinx.coroutines.launch
@@ -58,7 +60,7 @@ fun SwipeCrossFadeLayout(
                 mainLowerHeight.toFloat() to SwipeLayoutState.Foreground
             ),
             thresholds =  { _, _ ->
-                FractionalThreshold(0.5f)
+                FractionalThreshold(0.3f)
             },
             orientation = Orientation.Vertical
         ),
@@ -79,13 +81,21 @@ fun SwipeCrossFadeLayout(
             constraints.copy(minHeight = constraints.maxHeight, maxHeight = constraints.maxHeight)
         )
 
+
         layout(constraints.maxWidth, constraints.maxHeight) {
+            val scale = lerp(1f, 0.8f, progress)
             mainLowerPlaceable.placeRelativeWithLayer(0, mainUpperHeight) {
                 alpha = 1f - progress
+                scaleX = scale
+                scaleY = scale
+                transformOrigin = TransformOrigin(0.5f, 0f)
             }
 
             mainUpperPlaceable.placeRelativeWithLayer(0, 0) {
                 alpha = 1f - progress
+                scaleX = scale
+                scaleY = scale
+                transformOrigin = TransformOrigin(0.5f, 1f)
             }
 
             if (progress > 0.01f) {
@@ -101,7 +111,6 @@ fun SwipeCrossFadeLayout(
 @Composable
 fun SwipeCrossFadeLayoutTest() {
     val state = rememberSwipeableState(initialValue = SwipeLayoutState.Main)
-    val scope = rememberCoroutineScope()
     val nestedScrollConnection = remember {
         object : NestedScrollConnection {
             override fun onPostScroll(
@@ -109,14 +118,24 @@ fun SwipeCrossFadeLayoutTest() {
                 available: Offset,
                 source: NestedScrollSource
             ): Offset {
-                val y = available.y
-                if (y < -30 && state.currentValue == SwipeLayoutState.Foreground) {
-                    scope.launch {
-                        state.animateTo(SwipeLayoutState.Main)
-                    }
+                // 因为前景是列表，如果滑到底部仍然有多余的滑动距离，就关闭
+                // Log.d("NestedScrollConnection", "onPostScroll: $available")
+                // 读者可以自行运行这行代码，滑动列表到底部后仍然上滑，看看上面会打印什么，就能明白这个 available 的作用了
+                return if (available.y < 0 && source == NestedScrollSource.Drag) {
+                    state.performDrag(available.toFloat()).toOffset()
+                } else {
+                    Offset.Zero
                 }
-                return super.onPostScroll(consumed, available, source)
             }
+
+            override suspend fun onPostFling(consumed: Velocity, available: Velocity): Velocity {
+                state.performFling(velocity = Offset(available.x, available.y).toFloat())
+                return available
+            }
+
+            private fun Float.toOffset(): Offset = Offset(0f, this)
+
+            private fun Offset.toFloat(): Float = this.y
         }
     }
     SwipeCrossFadeLayout(
@@ -157,11 +176,16 @@ fun SwipeCrossFadeLayoutTest() {
     )
 }
 
+
 private const val MAIN_UPPER_KEY = "main_upper"
 private const val MAIN_LOWER_KEY = "main_lower"
 private const val FOREGROUND_KEY = "foreground"
 
 private fun lerp(start: Int, end: Int, fraction: Float): Int {
     return (start + fraction * (end - start)).toInt()
+}
+
+private fun lerp(start: Float, end: Float, fraction: Float): Float {
+    return (start + fraction * (end - start))
 }
 
