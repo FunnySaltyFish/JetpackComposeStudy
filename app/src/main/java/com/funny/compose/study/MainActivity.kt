@@ -5,11 +5,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.with
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
@@ -36,6 +37,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -44,7 +46,6 @@ import androidx.compose.ui.unit.sp
 import com.funny.cmaterialcolors.MaterialColors
 import com.funny.compose.study.ui.anim.LazyListFadeInAnim
 import com.funny.compose.study.ui.anim.LazyListSlideInFromRightAnim
-import com.funny.compose.study.ui.anim.LazyListAnimatedVisibility
 import com.funny.compose.study.ui.anim.NumberChangeAnimationTextTest
 import com.funny.compose.study.ui.event_test.ClickEventTest
 import com.funny.compose.study.ui.feature.BasicMarqueeTest
@@ -58,7 +59,6 @@ import com.funny.compose.study.ui.others.RememberTest
 import com.funny.compose.study.ui.pager.VerticalPagerTest
 import com.funny.compose.study.ui.physics_layout.PhysicsLayoutTest
 import com.funny.compose.study.ui.post_layout.CountNumTest
-import com.funny.compose.study.ui.post_layout.SwipeCrossFadeLayout
 import com.funny.compose.study.ui.post_layout.SwipeCrossFadeLayoutTest
 import com.funny.compose.study.ui.post_layout.SwipeableDemo
 import com.funny.compose.study.ui.post_layout.VerticalLayout
@@ -80,7 +80,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             JetpackComposeStudyTheme {
-                 Catalog()
+                  Catalog()
             }
         }
     }
@@ -164,7 +164,8 @@ val pages: List<Pair<String, @Composable () -> Unit>> =
         "1.4:跑马灯效果" to { BasicMarqueeTest() },
         "列表动画（右侧位移进入）" to { LazyListSlideInFromRightAnim() },
         "列表动画（FadeIn）" to { LazyListFadeInAnim() },
-        "下拉渐变切换的布局" to { SwipeCrossFadeLayoutTest() }
+        "下拉渐变切换的布局" to { SwipeCrossFadeLayoutTest() },
+        "SwipeableTest" to { SwipeableDemo() }
     )
 
 
@@ -181,13 +182,14 @@ fun Catalog() {
         targetState = content,
         transitionSpec = {
             slideIntoContainer(
-                AnimatedContentScope.SlideDirection.Right,
+                AnimatedContentTransitionScope.SlideDirection.Right,
                 tween(500)
-            ) with fadeOut() + slideOutOfContainer(
-                AnimatedContentScope.SlideDirection.Left,
+            ) togetherWith fadeOut() + slideOutOfContainer(
+                AnimatedContentTransitionScope.SlideDirection.Left,
                 tween(500)
             )
         },
+        label = "Catalog",
     ) {
         when (it) {
             null -> LazyVerticalStaggeredGrid(
@@ -197,7 +199,8 @@ fun Catalog() {
                 // item 和 item 之间的纵向间距
                 verticalItemSpacing = 8.dp,
                 // item 和 item 之间的横向间距
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                state = rememberLazyStaggeredGridState()
             ) {
                 itemsIndexed(pages, key = { _, p -> p.first }) { _, pair ->
                     Card(
@@ -220,7 +223,8 @@ fun Catalog() {
             else -> Box(
                 Modifier
                     .fillMaxSize()
-                    .padding(8.dp)
+                    .padding(8.dp),
+                contentAlignment = Center
             ) {
                 BackHandler {
                     content = null

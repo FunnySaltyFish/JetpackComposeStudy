@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.VerticalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -26,7 +27,10 @@ fun VerticalPagerTest() {
     val logs = remember { mutableStateListOf<String>() }
     val lazyListState = rememberLazyListState()
     val scope = rememberCoroutineScope()
-    VerticalPager(pageCount = 10, modifier = Modifier.fillMaxSize()) { page ->
+    val state = rememberPagerState {
+        10
+    }
+    VerticalPager(state = state, modifier = Modifier.fillMaxSize()) { page ->
         RecordSelfText(modifier = Modifier.fillMaxSize(), page = page, updateLog = {
             scope.launch {
                 logs.add(it)

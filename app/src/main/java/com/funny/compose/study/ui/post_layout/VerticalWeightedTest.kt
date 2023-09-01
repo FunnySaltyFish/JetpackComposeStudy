@@ -37,7 +37,7 @@ fun WeightedVerticalLayout(
     modifier: Modifier = Modifier,
     content: @Composable VerticalScope.() -> Unit
 ) {
-    val measurePolicy = MeasurePolicy { measurables, constraints ->
+    val measurePolicy = MeasurePolicy { measurables, constraints: Constraints ->
         // 获取各weight值
         val weights = measurables.map {
             (it.parentData as WeightParentData).weight

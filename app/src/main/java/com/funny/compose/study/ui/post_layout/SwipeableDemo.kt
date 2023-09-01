@@ -28,20 +28,23 @@ fun SwipeableDemo() {
     val swipeableState = rememberSwipeableState(initialValue = Status.CLOSE)
     Box(
         modifier = Modifier
-            .size(height = blockSize, width = blockSize * 2)
+            .size(height = blockSize, width = blockSize * 4)
             .background(Color.LightGray)
     ) {
         Box(
             modifier = Modifier
                 .offset {
+                    // 读取 swipeableState 的 offset 值，设置为 Box 的偏移量
                     IntOffset(swipeableState.offset.value.toInt(), 0)
                 }
                 .swipeable(
                     state = swipeableState,
+                    // 关键参数 anchors，表示 offset 和自定义状态的对应关系
                     anchors = mapOf(
                         0f to Status.CLOSE,
-                        blockSizePx to Status.OPEN
+                        blockSizePx * 3 to Status.OPEN
                     ),
+                    // 关键参数 thresholds，表示位置到达多少时，自动切换到下一个状态
                     thresholds = { from, to ->
                         if (from == Status.CLOSE) {
                             FractionalThreshold(0.3f)
@@ -49,6 +52,7 @@ fun SwipeableDemo() {
                             FractionalThreshold(0.5f)
                         }
                     },
+                    // orientation，表示滑动方向
                     orientation = Orientation.Horizontal
                 )
                 .size(blockSize)

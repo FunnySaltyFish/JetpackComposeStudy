@@ -15,6 +15,7 @@ import androidx.compose.material.TabRow
 import androidx.compose.material.TabRowDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,7 +29,7 @@ private val pages = listOf("生活", "美食", "科技", "娱乐", "涩涩")
 @OptIn(ExperimentalFoundationApi::class, ExperimentalPagerApi::class)
 @Composable
 fun HorizontalPagerWithIndicator() {
-    val pagerState = rememberPagerState()
+    val pagerState = rememberPagerState(pageCount = { pages.size })
     val scope = rememberCoroutineScope()
 
     Column {
@@ -52,7 +53,6 @@ fun HorizontalPagerWithIndicator() {
                     text = { Text(title) },
                     selected = pagerState.currentPage == index,
                     onClick = {
-                        Log.d("PagerTest", "HorizontalPagerWithIndicator: onClicked")
                         scope.launch {
                             pagerState.animateScrollToPage(index)
                         }
@@ -62,7 +62,6 @@ fun HorizontalPagerWithIndicator() {
         }
 
         HorizontalPager(
-            pageCount = pages.size,
             state = pagerState,
             modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.surface)
         ) { page ->

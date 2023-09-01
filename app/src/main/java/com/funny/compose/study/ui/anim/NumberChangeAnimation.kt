@@ -77,9 +77,10 @@ fun NumberChangeAnimatedText(
             AnimatedContent(
                 targetState = it,
                 transitionSpec = {
-                    slideIntoContainer(AnimatedContentScope.SlideDirection.Up) with
-                            fadeOut() + slideOutOfContainer(AnimatedContentScope.SlideDirection.Up)
-                }
+                    slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Up) with
+                            fadeOut() + slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Up)
+                },
+                label = "NumberChange"
             ) { char ->
                 Text(
                     text = char.toString(),
